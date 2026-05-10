@@ -175,11 +175,11 @@ def getLangchainDocsFromFile(file_location, filename):
                                     strategy="fast")
 
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=2000,
-        chunk_overlap=100,
+        chunk_size=1500,
+        chunk_overlap=200,
         length_function=len,
         add_start_index=True,
-        separators=["\n\n", "\n", " ", ""]
+        separators=["\n# ", "\n## ", "\n### ", "\nAbstract", "\nIntroduction", "\nMethods", "\nResults", "\nConclusion", "\n\n", "\n", " ", ""]
     )
 
     docs = loader.load_and_split(text_splitter)
@@ -252,11 +252,12 @@ async def create_item(req: UploadDocumentRequest):
             print(f"Identifier found: {identifier}")
             await fetch_citation(identifier, uploadID)
 
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=2000, chunk_overlap=20, length_function=len,
-            separators=["\n\n", "\n", " ", ""]
+      text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1500, 
+            chunk_overlap=200, 
+            length_function=len,
+            separators=["\n# ", "\n## ", "\n### ", "\nAbstract", "\nIntroduction", "\nMethods", "\nResults", "\nConclusion", "\n\n", "\n", " ", ""]
         )
-
         texts = text_splitter.split_documents(docs)
         print(f"Texts split into {len(texts)} parts")
 
